@@ -1,6 +1,7 @@
 import React from "react";
 import "./Homepage.css";
 import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function Homepage() {
   return (
@@ -17,8 +18,12 @@ function Homepage() {
                 Create a game for your friends to join or join a friend's game!
               </Card.Text>
               <div className="multiplayer-buttons">
+              <Link to="/CreateGame">
                 <Button className="game-option-button">Create Game</Button>
-                <Button className="game-option-button">Join Game</Button>
+                </Link>
+                <Link to="/MultiplayerPage">
+                  <Button className="game-option-button">Join Game</Button>
+                </Link>
               </div>
             </Card.Body>
           </Card>
