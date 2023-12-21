@@ -1,6 +1,7 @@
 import React from "react";
 import "./WaitingRoom.css";
 import { Button, Card, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function WaitingRoom() {
   const role = "host";
@@ -47,12 +48,16 @@ function WaitingRoom() {
                   </tbody>
                 </Table>
                 <div className="waitingroom-host-buttons">
+                <Link to="/">
                   <Button className="waitingroom-host-button-leave">
                     Leave Game
                   </Button>
+                  </Link>
+                  <Link to="/Game">
                   <Button className="waitingroom-host-button-start">
                     Start Game
                   </Button>
+                  </Link>
                 </div>
               </Card.Body>
             </Card>
