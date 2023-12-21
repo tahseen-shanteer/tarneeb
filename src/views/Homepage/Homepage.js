@@ -1,6 +1,7 @@
 import React from "react";
 import "./Homepage.css";
 import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function Homepage() {
   return (
@@ -18,7 +19,9 @@ function Homepage() {
               </Card.Text>
               <div className="multiplayer-buttons">
                 <Button className="game-option-button">Create Game</Button>
-                <Button className="game-option-button">Join Game</Button>
+                <Link to="/MultiplayerPage">
+                  <Button className="game-option-button">Join Game</Button>
+                </Link>
               </div>
             </Card.Body>
           </Card>

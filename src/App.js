@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Homepage from './views/Homepage/Homepage';
 import MultiplayerPage from './views/MultiplayerPage/MultiplayerPage';
 import WaitingRoom from './views/WaitingRoom/WaitingRoom';
+import Game from './views/Game/Game';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path='/' element={ <Homepage/> } />
           <Route path='/MultiplayerPage' element={ <MultiplayerPage/> }/>
           <Route path='/WaitingRoom' element={ <WaitingRoom/> }/>
+          <Route path='/Game' element={<Game/>}/>
         </Routes>
       </BrowserRouter>
     </div>
