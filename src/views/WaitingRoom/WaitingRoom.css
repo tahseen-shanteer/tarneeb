@@ -12,15 +12,15 @@
     margin: 0;
     position: relative;
     justify-content: center;
-    padding: 50px;
-    font-size: 50px;
+    padding: 5vh;
+    font-size: 5vh;
     color: white;
 }
 
 .waitingroom-container{
     display: flex;
     position: relative;
-    width: 50%;
+    width: 60%;
     height: auto;
     justify-content: center;
     align-items: center;
@@ -32,12 +32,12 @@
     justify-content: center;
     height: 100%;
     width: 100%;
-    padding: 10px;
+    padding: 1.5vh;
 }
 
 .waitingroom-card{
     display: flex;
-    padding: 10px;
+    padding: 1vh;
     align-items: center;
     justify-content: center;
     background-color: #b1a7a6;
@@ -50,32 +50,33 @@
 .waitingroom-card-body{
     display: flex;
     flex-direction: column;
+    align-items: center;
     height: 100%;
 }
 
 .waitingroom-card-title{
     display: flex;
-    font-size: 40px;
+    font-size: 4vh;
     font-weight: bold;
     margin: 0;
 }
 
 .waitingroom-card-code{
     display: flex;
-    font-size: 50px;
+    font-size: 6vh;
     font-weight: bold;
     margin: 0;
 }
 
 .waitingroom-card-text{
-    font-size: 30px;
+    font-size: 3.5vh;
     margin: 0;
-    padding-bottom: 30px;
-    padding-top: 10px;
+    padding-bottom: 3.5vh;
+    padding-top: 1vh;
 }
 
 .waitingroom-card-code-text{
-    font-size: 30px;
+    font-size: 3vh;
     margin: 0;
 }
 
@@ -91,32 +92,49 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 100%;
     border: 1px solid #161a1d;
+    border-radius: 1vh;
 }
 
-.waitingroom-player-table thead tr{
+.waitingroom-player-table thead{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: auto;
+    width: 100%;
     border: 1px solid #161a1d;
+    border-radius: 1vh;
 }
 
 .waitingroom-host-buttons{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding-top: 20px;
+    width: 100%;
+    padding-top: 1.5vh;
 }
 
-.waitingroom-host-button{
+.waitingroom-host-button-leave{
     background-color: #e5383b;
-    padding: 10px;
+    padding: 1.5vh;
     border: none;
     border-radius: 5px;
     color: #d3d3d3;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 2vh;
+}
+
+.waitingroom-host-button-start{
+    background-color: #008000;
+    padding: 1.5vh;
+    border: none;
+    border-radius: 5px;
+    color: #d3d3d3;
+    font-weight: bold;
+    font-size: 2vh;
+}
+
+.waitingroom-host-button-start:hover, .waitingroom-host-button-leave:hover{
+    box-shadow: 0 0 2px 2px #161a1d;
 }

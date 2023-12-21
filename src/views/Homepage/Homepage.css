@@ -12,8 +12,8 @@
     margin: 0;
     position: relative;
     justify-content: center;
-    padding: 50px;
-    font-size: 50px;
+    padding: 8vh;
+    font-size: 5vh;
     color: white;
 }
 
@@ -32,7 +32,7 @@
     justify-content: center;
     height: 100%;
     width: auto;
-    padding: 10px;
+    padding: 2vh;
 }
 
 .game-option-card{
@@ -54,22 +54,22 @@
 }
 
 .game-option-card-title{
-    font-size: 40px;
+    font-size: 4vh;
     font-weight: bold;
 }
 
 .game-option-card-text{
-    font-size: 30px;
+    font-size: 3.5vh;
 }
 
 .game-option-button{
     background-color: #e5383b;
-    padding: 10px;
+    padding: 2vh;
     border: none;
     border-radius: 5px;
     color: #d3d3d3;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 2vh;
 }
 
 .game-option-button:hover{
