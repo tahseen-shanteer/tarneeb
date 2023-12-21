@@ -30,7 +30,7 @@ function Homepage() {
                 Single Player
               </Card.Title>
               <Card.Text className="game-option-card-text">
-                Play a game against our trained bots to improve your skill!
+                Improve your skill by playing against trained bots!
               </Card.Text>
               <div className="single-player-button">
                 <Button className="game-option-button">Play Alone</Button>
