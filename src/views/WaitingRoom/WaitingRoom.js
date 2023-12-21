@@ -47,10 +47,10 @@ function WaitingRoom() {
                   </tbody>
                 </Table>
                 <div className="waitingroom-host-buttons">
-                  <Button className="waitingroom-host-button">
+                  <Button className="waitingroom-host-button-leave">
                     Leave Game
                   </Button>
-                  <Button className="waitingroom-host-button">
+                  <Button className="waitingroom-host-button-start">
                     Start Game
                   </Button>
                 </div>
