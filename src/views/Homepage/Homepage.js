@@ -18,7 +18,9 @@ function Homepage() {
                 Create a game for your friends to join or join a friend's game!
               </Card.Text>
               <div className="multiplayer-buttons">
+              <Link to="/CreateGame">
                 <Button className="game-option-button">Create Game</Button>
+                </Link>
                 <Link to="/MultiplayerPage">
                   <Button className="game-option-button">Join Game</Button>
                 </Link>
