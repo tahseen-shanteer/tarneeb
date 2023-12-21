@@ -37,7 +37,7 @@
 
 .game-option-card{
     display: flex;
-    padding: 10px;
+    padding: 1vh;
     align-items: center;
     justify-content: center;
     background-color: #b1a7a6;
