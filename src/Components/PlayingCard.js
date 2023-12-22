@@ -4,25 +4,29 @@ import Diamond from '../images/diamond.svg';
 import Heart from '../images/heart.svg';
 import Club from '../images/club.svg';
 import Spade from '../images/spade.svg';
+import { useState } from "react";
 
 
-const PlayingCard = ({number, shape}) => {
+const PlayingCard = ({number, shape, onClick, isUp}) => {
+
    const shapes = {
 	 "diamond": Diamond,
 	 "heart": Heart,
-	 "clubs": Club,
+	 "club": Club,
 	 "spade": Spade,
    };
 
    const colors = {
     "diamond": "red", 
     "heart": "red",
-    "clubs": "black", 
+    "club": "black", 
     "spade": "black",
   };
 
 	return (
-		<Card className="playing-card">
+		<Card className={`playing-card ${isUp ? 'up' : ''}`}
+    onClick={onClick}
+    >
       <Card.Body className="card-body">
 		<div className="playing-card-main-content">
         <Card.Text className="playing-card-number" style={{color: colors[shape]}}>{number}</Card.Text>
