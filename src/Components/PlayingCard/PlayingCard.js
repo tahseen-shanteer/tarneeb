@@ -1,9 +1,9 @@
 import { Card } from "react-bootstrap";
 import './PlayingCard.css';
-import Diamond from '../images/diamond.svg';
-import Heart from '../images/heart.svg';
-import Club from '../images/club.svg';
-import Spade from '../images/spade.svg';
+import Diamond from '../../images/diamond.svg';
+import Heart from '../../images/heart.svg';
+import Club from '../../images/club.svg';
+import Spade from '../../images/spade.svg';
 
 
 const PlayingCard = ({number, shape}) => {

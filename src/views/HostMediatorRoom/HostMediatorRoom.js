@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import "./HostMediatorRoom.css";
-import { Card, Button, Form } from "react-bootstrap";
+import { Card, Button, Form, Image } from "react-bootstrap";
+import DefaultProfile from "../../images/defaultProfile.svg";
+import Spade from "../../images/spade.svg";
+import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
 
 function HostMediatorRoom() {
+  const [avatar, setAvatar] = useState(DefaultProfile);
+  const [isAvatarCardOpen, setIsAvatarCardOpen] = useState(false);
+
+  const handleAvatarChange = (avatar) => {
+    setAvatar(avatar);
+  };
+
+  const toggleAvatarSelection = () => {
+    console.log("opened avatar selection");
+    setIsAvatarCardOpen(!isAvatarCardOpen);
+  };
+
   return (
     <div className="host-med-room-page-container">
-      <h1 className="host-med-room-title">TARNEEB</h1>
+      <h1 className="host-med-room-title">
+        T<Image src={Spade} className="spade-title" />
+        RNEEB
+      </h1>
       <div className="host-med-room-container">
+        {isAvatarCardOpen ? (
+          <AvatarSelectionCard
+            avatar={avatar}
+            handleAvatarChange={handleAvatarChange}
+          />
+        ) : null}
         <Card className="host-med-room-card">
           <Card.Body className="host-med-room-card-body">
             <Card.Title className="host-med-room-card-title">
@@ -15,11 +39,22 @@ function HostMediatorRoom() {
             <Form className="host-med-room-form">
               <Form.Group className="host-med-room-form-sprite-group">
                 <Form.Label className="host-med-room-form-sprite-label">
-                  Profile Sprite:
+                  Avatar:
                 </Form.Label>
-                <Form.Select
-                  className="host-med-room-form-sprite-file-input"
-                />
+                <div className="host-med-room-avatar-form-container">
+                  <div className="host-med-room-avatar-container">
+                    <Image
+                      src={avatar}
+                      className="host-med-room-form-avatar-svg"
+                    />
+                  </div>
+                  <Button
+                    className="host-med-room-form-change-avatar-button"
+                    onClick={() => toggleAvatarSelection()}
+                  >
+                    Change Avatar
+                  </Button>
+                </div>
               </Form.Group>
               <Form.Group className="host-med-room-form-name-group">
                 <Form.Label className="host-med-room-form-name-label">

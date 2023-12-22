@@ -7,11 +7,18 @@
     align-items: center;
 }
 
+.spade-title{
+    width: auto;
+    height: 5vh;
+    filter: invert(99%) sepia(0%) saturate(6%) hue-rotate(153deg) brightness(102%) contrast(102%);
+}
+
 .host-med-room-title{
     display: flex;
     margin: 0;
     position: relative;
     justify-content: center;
+    align-items: center;
     padding: 5vh;
     font-size: 5vh;
     color: white;
@@ -65,7 +72,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    justify-content: space-around;
+    justify-content: space-evenly;
     padding: 1vh;
 }
 
@@ -114,5 +121,43 @@
 }
 
 .host-med-room-create-button:hover{
+    box-shadow: 0 0 2px 2px #161a1d;
+}
+
+.host-med-room-avatar-form-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 60%;
+}
+
+.host-med-room-avatar-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid #e5383b;
+    border-radius: 50%;
+    height: 7vh;
+    width: 7vh;
+}
+
+.host-med-room-form-avatar-svg{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.host-med-room-form-change-avatar-button{
+    display: flex;
+    background-color: #e5383b;
+    padding: 1.5vh;
+    border: none;
+    border-radius: 5px;
+    color: #d3d3d3;
+    font-weight: bold;
+    font-size: 2vh;
+}
+
+.host-med-room-form-change-avatar-button:hover{
     box-shadow: 0 0 2px 2px #161a1d;
 }
