@@ -7,15 +7,9 @@ import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSele
 
 function HostMediatorRoom() {
   const [avatar, setAvatar] = useState(DefaultProfile);
-  const [isAvatarCardOpen, setIsAvatarCardOpen] = useState(false);
 
   const handleAvatarChange = (avatar) => {
     setAvatar(avatar);
-  };
-
-  const toggleAvatarSelection = () => {
-    console.log("opened avatar selection");
-    setIsAvatarCardOpen(!isAvatarCardOpen);
   };
 
   return (
@@ -25,12 +19,6 @@ function HostMediatorRoom() {
         RNEEB
       </h1>
       <div className="host-med-room-container">
-        {isAvatarCardOpen ? (
-          <AvatarSelectionCard
-            avatar={avatar}
-            handleAvatarChange={handleAvatarChange}
-          />
-        ) : null}
         <Card className="host-med-room-card">
           <Card.Body className="host-med-room-card-body">
             <Card.Title className="host-med-room-card-title">
@@ -48,12 +36,10 @@ function HostMediatorRoom() {
                       className="host-med-room-form-avatar-svg"
                     />
                   </div>
-                  <Button
-                    className="host-med-room-form-change-avatar-button"
-                    onClick={() => toggleAvatarSelection()}
-                  >
-                    Change Avatar
-                  </Button>
+                  <AvatarSelectionCard
+                    avatar={avatar}
+                    handleAvatarChange={handleAvatarChange}
+                  />
                 </div>
               </Form.Group>
               <Form.Group className="host-med-room-form-name-group">
@@ -67,7 +53,7 @@ function HostMediatorRoom() {
                 />
               </Form.Group>
             </Form>
-            <Button className="host-med-room-create-button">Create Game</Button>
+            <Button className="host-med-room-create-button" variant="danger">Create Game</Button>
           </Card.Body>
         </Card>
       </div>
