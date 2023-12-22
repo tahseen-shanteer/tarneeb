@@ -10,7 +10,15 @@
     font-weight: bold;
     border: 1px solid black; 
     border-radius: 8px; 
+    position: relative;
+    z-index: 1;
+    margin-left: -15%;
+    transition: transform 0.3s ease-in-out;
 }
+
+.playing-card.up {
+    transform: translateY(-20px);
+  }
 
 .playing-card-main-content{
     display: flex;
@@ -22,6 +30,7 @@
 .playing-card-number{
     font-size: 180%;
     margin: 0;
+    padding-left: 4%;
 }
 
 .playing-card-shape{
