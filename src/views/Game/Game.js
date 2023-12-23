@@ -1,5 +1,5 @@
 import './Game.css'
-import PlayingCard from '../../Components/PlayingCard';
+import PlayingCard from '../../Components/PlayingCard/PlayingCard';
 import React, { useState } from 'react';
 
 
