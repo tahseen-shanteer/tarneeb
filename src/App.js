@@ -6,7 +6,6 @@ import MultiplayerPage from './views/MultiplayerPage/MultiplayerPage';
 import WaitingRoom from './views/WaitingRoom/WaitingRoom';
 import Game from './views/Game/Game';
 import HostMediatorRoom from './views/HostMediatorRoom/HostMediatorRoom';
-import AvatarSelectionCard from './Components/AvatarSelectionCard/AvatarSelectionCard';
 
 function App() {
   return (
