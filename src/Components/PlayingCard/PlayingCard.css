@@ -17,8 +17,8 @@
 }
 
 .playing-card.up {
-    transform: translateY(-20px);
-  }
+    transform: translateY(-20%);
+  }  
 
 .playing-card-main-content{
     display: flex;
@@ -34,8 +34,8 @@
 }
 
 .playing-card-shape{
-    width: 25%;
-    height: 25%;
+    width: 30%;
+    height: 30%;
 }
 
 .playing-card-secondary-content{
