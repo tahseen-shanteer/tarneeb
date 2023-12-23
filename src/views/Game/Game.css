@@ -1,0 +1,10 @@
+.game-container {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  padding: 10px;  
+  margin-left: 35%;
+  }
