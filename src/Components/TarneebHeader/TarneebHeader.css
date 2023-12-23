@@ -1,0 +1,16 @@
+.tarneeb-header{
+    display: flex;
+    margin: 0;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    padding: 5vh;
+    font-size: 5vh;
+    color: white;
+}
+
+.spade-title{
+    width: auto;
+    height: 5vh;
+    filter: invert(99%) sepia(0%) saturate(6%) hue-rotate(153deg) brightness(102%) contrast(102%);
+}

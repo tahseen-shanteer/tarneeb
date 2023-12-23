@@ -5,7 +5,6 @@ import { Card, Form, Button } from "react-bootstrap";
 function MultiplayerPage() {
   return (
     <div className="multiplayerPage-container">
-      <h1 className="multiplayerPage-title">TARNEEB</h1>
       <div className="enterCode">
         <Card className="enterCode-card">
           <Card.Body className="code-card-body">

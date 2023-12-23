@@ -8,7 +8,6 @@ function WaitingRoom() {
 
   return (
     <div className="waitingroom-page-container">
-      <h1 className="waitingroom-title">TARNEEB</h1>
       <div className="waitingroom-container">
         <div className="waitingroom">
           {role === "host" ? (

@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 function Homepage() {
   return (
     <div className="homepage-container">
-      <h1 className="homepage-title">TARNEEB</h1>
       <div className="game-options-container">
         <div className="game-option">
           <Card className="game-option-card">
@@ -19,10 +18,10 @@ function Homepage() {
               </Card.Text>
               <div className="multiplayer-buttons">
               <Link to="/CreateGame">
-                <Button className="game-option-button">Create Game</Button>
+                <Button className="game-option-button" variant="danger">Create Game</Button>
                 </Link>
                 <Link to="/MultiplayerPage">
-                  <Button className="game-option-button">Join Game</Button>
+                  <Button className="game-option-button" variant="danger">Join Game</Button>
                 </Link>
               </div>
             </Card.Body>
@@ -38,7 +37,7 @@ function Homepage() {
                 Improve your skill by playing against trained bots!
               </Card.Text>
               <div className="single-player-button">
-                <Button className="game-option-button">Play Alone</Button>
+                <Button className="game-option-button" variant="danger">Play Alone</Button>
               </div>
             </Card.Body>
           </Card>

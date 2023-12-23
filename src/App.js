@@ -6,11 +6,14 @@ import MultiplayerPage from './views/MultiplayerPage/MultiplayerPage';
 import WaitingRoom from './views/WaitingRoom/WaitingRoom';
 import Game from './views/Game/Game';
 import HostMediatorRoom from './views/HostMediatorRoom/HostMediatorRoom';
+import TarneebHeader from './Components/TarneebHeader/TarneebHeader';
+
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <TarneebHeader />
         <Routes>
           <Route path='/' element={ <Homepage/> } />
           <Route path='/MultiplayerPage' element={ <MultiplayerPage/> }/>

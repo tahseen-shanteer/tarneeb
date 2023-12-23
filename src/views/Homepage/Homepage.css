@@ -35,7 +35,7 @@
     padding: 2vh;
 }
 
-.game-option-card{
+.game-option-card.card{
     display: flex;
     padding: 1vh;
     align-items: center;
@@ -53,27 +53,13 @@
     height: 100%;
 }
 
-.game-option-card-title{
+.game-option-card-title.h5{
     font-size: 4vh;
     font-weight: bold;
 }
 
 .game-option-card-text{
     font-size: 3.5vh;
-}
-
-.game-option-button{
-    background-color: #e5383b;
-    padding: 2vh;
-    border: none;
-    border-radius: 5px;
-    color: #d3d3d3;
-    font-weight: bold;
-    font-size: 2vh;
-}
-
-.game-option-button:hover{
-    box-shadow: 0 0 2px 2px #161a1d;
 }
 
 .multiplayer-buttons{
