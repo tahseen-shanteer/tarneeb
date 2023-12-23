@@ -5,6 +5,7 @@ import DefaultProfile from "../../images/defaultProfile.svg";
 import Spade from "../../images/spade.svg";
 import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
 
+
 function HostMediatorRoom() {
   const [avatar, setAvatar] = useState(DefaultProfile);
 
