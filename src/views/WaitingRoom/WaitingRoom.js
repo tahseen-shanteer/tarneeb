@@ -3,6 +3,7 @@ import "./WaitingRoom.css";
 import { Button, Card, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+
 function WaitingRoom() {
   const role = "host";
 

@@ -4,6 +4,7 @@ import { Card, Button, Form, Image } from "react-bootstrap";
 import DefaultProfile from "../../images/defaultProfile.svg";
 import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
 
+
 function HostMediatorRoom() {
   const [avatar, setAvatar] = useState(DefaultProfile);
 
