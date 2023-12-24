@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <TarneebHeader />
+        {!window.location.pathname.includes("game") ? <TarneebHeader /> : null}
         <Routes>
           <Route path='/' element={ <Homepage/> } />
           <Route path='/MultiplayerPage' element={ <MultiplayerPage/> }/>

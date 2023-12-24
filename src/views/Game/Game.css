@@ -1,17 +1,40 @@
+.game-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.game-table {
+  display: flex;
+  width: 30%;
+  height: 50%;
+  background: radial-gradient(ellipse at center, #56c435 0%,#60ad2a 44%,#24761f 100%);
+  border-width: 5px;
+  border-color: silver;
+  border-style: solid;
+  border-radius: 10%;
+  margin-top: 20vh;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .player-deck {
   width: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  bottom: 0;
-  padding: 10px;  
-  margin-left: 35%;
-  }
-  
-.played-card{
+  padding: 10px;
+  margin-top: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.played-card {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 0;
-}  
+}
