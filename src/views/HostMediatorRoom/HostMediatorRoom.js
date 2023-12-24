@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./HostMediatorRoom.css";
 import { Card, Button, Form, Image } from "react-bootstrap";
 import DefaultProfile from "../../images/defaultProfile.svg";
-import Spade from "../../images/spade.svg";
 import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
 
 
@@ -15,10 +14,6 @@ function HostMediatorRoom() {
 
   return (
     <div className="host-med-room-page-container">
-      <h1 className="host-med-room-title">
-        T<Image src={Spade} className="spade-title" />
-        RNEEB
-      </h1>
       <div className="host-med-room-container">
         <Card className="host-med-room-card">
           <Card.Body className="host-med-room-card-body">

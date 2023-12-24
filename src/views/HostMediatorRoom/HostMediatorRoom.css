@@ -13,17 +13,6 @@
     filter: invert(99%) sepia(0%) saturate(6%) hue-rotate(153deg) brightness(102%) contrast(102%);
 }
 
-.host-med-room-title{
-    display: flex;
-    margin: 0;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    padding: 5vh;
-    font-size: 5vh;
-    color: white;
-}
-
 .host-med-room-container{
     display: flex;
     position: relative;

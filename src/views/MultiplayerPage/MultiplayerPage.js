@@ -1,22 +1,40 @@
 import "./MultiplayerPage.css";
-import React from "react";
-import { Card, Form, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card, Form, Button, Image } from "react-bootstrap";
+import DefaultProfile from "../../images/defaultProfile.svg";
+import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
 
 function MultiplayerPage() {
+  const [avatar, setAvatar] = useState(DefaultProfile);
+
+  const handleAvatarChange = (avatar) => {
+    setAvatar(avatar);
+  };
   return (
     <div className="multiplayerPage-container">
-      <h1 className="multiplayerPage-title">TARNEEB</h1>
       <div className="enterCode">
         <Card className="enterCode-card">
           <Card.Body className="code-card-body">
             <Card.Title className="enterCode-title">Enter code</Card.Title>
             <Form className="code-form">
+              <Form.Group className="avatarSelection">
+                <Form.Label className="avatar-label">Avatar:</Form.Label>
+                <div className="avatar-form-container">
+                  <div className="avatar-container">
+                    <Image src={avatar} className="avatar-svg" />
+                  </div>
+                  <AvatarSelectionCard
+                    avatar={avatar}
+                    handleAvatarChange={handleAvatarChange}
+                  />
+                </div>
+              </Form.Group>
               <Form.Group className="formName">
                 <Form.Label className="name-label">Name:</Form.Label>
                 <Form.Control
                   className="name-input"
                   type="text"
-                  placeholder="Enter your name"
+                  placeholder="Enter display Name"
                 />
               </Form.Group>
 
@@ -25,17 +43,17 @@ function MultiplayerPage() {
                 <Form.Control
                   className="code-input"
                   type="text"
-                  placeholder="Enter the code"
+                  placeholder="Enter game code"
                 />
               </Form.Group>
 
               <div className="submit-button">
                 <Button
                   className="code-submit-button"
-                  variant="primary"
+                  variant="danger"
                   type="submit"
                 >
-                  Submit
+                  Join Game
                 </Button>
               </div>
             </Form>

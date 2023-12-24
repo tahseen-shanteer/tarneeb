@@ -1,18 +1,32 @@
-import './Game.css';
-import PlayingCard from '../../Components/PlayingCard/PlayingCard';
-import React, { useState } from 'react';
+import "./Game.css";
+import PlayingCard from "../../Components/PlayingCard/PlayingCard";
+import React, { useState } from "react";
 
 function Game() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [playedCards, setPlayedCards] = useState([]);
-  
+
   const getRandomShape = () => {
-    const shapes = ['heart', 'diamond', 'club', 'spade'];
+    const shapes = ["heart", "diamond", "club", "spade"];
     return shapes[Math.floor(Math.random() * shapes.length)];
   };
 
   const getRandomNumber = () => {
-    const numbers = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+    const numbers = [
+      "A",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "J",
+      "Q",
+      "K",
+    ];
     return numbers[Math.floor(Math.random() * numbers.length)];
   };
 
@@ -25,7 +39,7 @@ function Game() {
         isUp: false,
       };
       randomCards.push(card);
-      localStorage.setItem('card' + (i + 1), card.number + " " + card.shape);
+      localStorage.setItem("card" + (i + 1), card.number + " " + card.shape);
     }
     return randomCards;
   };
@@ -47,7 +61,14 @@ function Game() {
   };
 
   return (
-    <div>
+    <div className="game-container">
+      <div className="game-table">
+        <div className="played-card">
+          {playedCards.map((card, index) => (
+            <PlayingCard key={index} number={card.number} shape={card.shape} />
+          ))}
+        </div>
+      </div>
       <div className="player-deck">
         {randomCards.map((card, index) => (
           <PlayingCard
@@ -56,15 +77,6 @@ function Game() {
             shape={card.shape}
             onClick={() => handleCardClick(index)}
             isUp={selectedCard === index}
-          />
-        ))}
-      </div>
-      <div className='played-card'>
-        {playedCards.map((card, index) => (
-          <PlayingCard
-            key={index}
-            number={card.number}
-            shape={card.shape}
           />
         ))}
       </div>

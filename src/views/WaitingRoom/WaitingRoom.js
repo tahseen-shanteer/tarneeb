@@ -9,7 +9,6 @@ function WaitingRoom() {
 
   return (
     <div className="waitingroom-page-container">
-      <h1 className="waitingroom-title">TARNEEB</h1>
       <div className="waitingroom-container">
         <div className="waitingroom">
           {role === "host" ? (
@@ -27,37 +26,55 @@ function WaitingRoom() {
                 <Card.Text className="waitingroom-card-text">
                   Share this code with your friends to join the game!
                 </Card.Text>
-                <Table className="waitingroom-player-table">
-                  <thead>
-                    <tr>
-                      <th>Player</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Player 1</td>
-                    </tr>
-                    <tr>
-                      <td>Player 2</td>
-                    </tr>
-                    <tr>
-                      <td>Player 3</td>
-                    </tr>
-                    <tr>
-                      <td>Player 4</td>
-                    </tr>
-                  </tbody>
-                </Table>
+                <div className="waitingroom-table-container">
+                  <Table striped bordered hover className="waitingroom-player-table">
+                    <thead>
+                      <tr>
+                        <td><Button variant="secondary">Join Team 1</Button></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Player</td>
+                      </tr>
+                      <tr>
+                        <td>Player</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                  <Table striped bordered hover className="waitingroom-player-table">
+                    <thead>
+                      <tr>
+                        <td><Button variant="secondary">Join Team 2</Button></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Player</td>
+                      </tr>
+                      <tr>
+                        <td>Player</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+
                 <div className="waitingroom-host-buttons">
-                <Link to="/">
-                  <Button className="waitingroom-host-button-leave">
-                    Leave Game
-                  </Button>
+                  <Link to="/">
+                    <Button
+                      className="waitingroom-host-button-leave"
+                      variant="danger"
+                    >
+                      Leave Game
+                    </Button>
                   </Link>
                   <Link to="/Game">
-                  <Button className="waitingroom-host-button-start">
-                    Start Game
-                  </Button>
+                    <Button
+                      className="waitingroom-host-button-start"
+                      variant="success"
+                    >
+                      Start Game
+                    </Button>
                   </Link>
                 </div>
               </Card.Body>
