@@ -3,6 +3,7 @@ import "./HostMediatorRoom.css";
 import { Card, Button, Form, Image } from "react-bootstrap";
 import DefaultProfile from "../../images/defaultProfile.svg";
 import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
+import { Link } from "react-router-dom";
 
 
 function HostMediatorRoom() {
@@ -49,7 +50,9 @@ function HostMediatorRoom() {
                 />
               </Form.Group>
             </Form>
-            <Button className="host-med-room-create-button" variant="danger">Create Game</Button>
+            <Link to={'/WaitingRoom'}>
+              <Button className="host-med-room-create-button" variant="danger">Create Game</Button>
+            </Link>
           </Card.Body>
         </Card>
       </div>
