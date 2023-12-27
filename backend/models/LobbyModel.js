@@ -20,4 +20,4 @@ const LobbySchema = new mongoose.Schema({
     }
 });
 
-module.exports = LobbySchema;
+module.exports = mongoose.model('Lobby', LobbySchema);

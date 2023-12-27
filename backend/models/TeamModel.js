@@ -16,8 +16,9 @@ const TeamSchema = new mongoose.Schema({
 
     roundsWon:{
         type: Number,
+        default: 0,
         required: true,
     }
 });
 
-module.exports = TeamSchema;
+module.exports = mongoose.model('Team', TeamSchema);

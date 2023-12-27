@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const CardSchema = reqiure('./CardModel');
+const CardSchema = require('./CardModel');
 
 const RoundSchema = new mongoose.Schema({
 
@@ -11,10 +11,11 @@ const RoundSchema = new mongoose.Schema({
 
     cardsPlayed: {
         type: [CardSchema],
+        default: [],
         required: true,
     },
 
 
 });
 
-module.exports = RoundSchema;
+module.exports = mongoose.model('Round', RoundSchema);

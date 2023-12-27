@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const CardSchema = reqiure('./CardModel');
+const CardSchema = require('./CardModel');
 
 const PlayerSchema = new mongoose.Schema({
     playerName : {
@@ -33,4 +33,4 @@ const PlayerSchema = new mongoose.Schema({
 
 });
 
-module.exports = PlayerSchema;
+module.exports = mongoose.model('Player', PlayerSchema);
