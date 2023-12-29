@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Homepage from './views/Homepage/Homepage';
 import MultiplayerPage from './views/MultiplayerPage/MultiplayerPage';
@@ -7,9 +7,15 @@ import WaitingRoom from './views/WaitingRoom/WaitingRoom';
 import Game from './views/Game/Game';
 import HostMediatorRoom from './views/HostMediatorRoom/HostMediatorRoom';
 import TarneebHeader from './Components/TarneebHeader/TarneebHeader';
+import socket from './socket';
 
 
 function App() {
+  useEffect(() => {
+    socket.on('teamJoined', () =>{
+      alert("a player has joined a team haha");
+    });
+  }, [socket]);
   return (
     <div className="App">
       <BrowserRouter>

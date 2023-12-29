@@ -3,14 +3,22 @@ import "./HostMediatorRoom.css";
 import { Card, Button, Form, Image } from "react-bootstrap";
 import DefaultProfile from "../../images/defaultProfile.svg";
 import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import socket from '../../socket';
 
 
 function HostMediatorRoom() {
   const [avatar, setAvatar] = useState(DefaultProfile);
+  const navigate = useNavigate();
 
   const handleAvatarChange = (avatar) => {
     setAvatar(avatar);
+  };
+
+  const createRoom = () =>{
+    const roomName = `ABC123`;
+    socket.emit('createRoom', roomName );
+    navigate(`/WaitingRoom?${roomName}`);
   };
 
   return (
@@ -50,9 +58,7 @@ function HostMediatorRoom() {
                 />
               </Form.Group>
             </Form>
-            <Link to={'/WaitingRoom'}>
-              <Button className="host-med-room-create-button" variant="danger">Create Game</Button>
-            </Link>
+              <Button className="host-med-room-create-button" variant="danger" onClick={createRoom}>Create Game</Button>
           </Card.Body>
         </Card>
       </div>

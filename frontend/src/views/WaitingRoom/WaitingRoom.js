@@ -1,16 +1,49 @@
-import React from "react";
+import React, { useState } from 'react';
 import "./WaitingRoom.css";
-import { Button, Card, Table } from "react-bootstrap";
+import { Button, Card, Table, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import socket from '../../socket';
+
 
 
 function WaitingRoom() {
   const role = "host";
+  const codes = "ABC123"
+  const [code, setCode] = useState('');
+
+  const alertFunc = () => {
+    socket.emit("teamJoin", codes);
+  };
+
+  const func = (code) => {
+    socket.emit("teamJoin", code);
+  };
 
   return (
     <div className="waitingroom-page-container">
       <div className="waitingroom-container">
         <div className="waitingroom">
+
+        <Form.Group className="formCode">
+                <Form.Label className="code-label">Code:</Form.Label>
+                <Form.Control
+                  className="code-input"
+                  type="text"
+                  placeholder="Enter game code"
+                  name="code"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                />
+              </Form.Group>
+              <Button
+                  className="code-submit-button"
+                  variant="danger"
+                  type="button"
+                  onClick={() => func(code)}
+                >
+                  Join Game
+                </Button>
+
           {role === "host" ? (
             <Card className="waitingroom-card">
               <Card.Body className="waitingroom-card-body">
@@ -30,7 +63,7 @@ function WaitingRoom() {
                   <Table striped bordered hover className="waitingroom-player-table">
                     <thead>
                       <tr>
-                        <td><Button variant="secondary">Join Team 1</Button></td>
+                        <td><Button variant="secondary" onClick={alertFunc}>Join Team 1</Button></td>
                       </tr>
                     </thead>
                     <tbody>
