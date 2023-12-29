@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const CardSchema = require('./CardModel');
+const CardSchema = require('./CardModel').schema;
 
 const PlayerSchema = new mongoose.Schema({
     playerName : {
@@ -28,6 +28,13 @@ const PlayerSchema = new mongoose.Schema({
 
     playerDeck : {
         type: [CardSchema],
+        default: [],
+        validate: {
+            validator: function (playerDeck) {
+                return playerDeck.length <= 13;
+            },
+            message: 'A player cant have more than 13 cards',
+        },
         required: true,
     },
 

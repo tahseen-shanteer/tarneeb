@@ -2,9 +2,9 @@ const Player = require("../models/PlayerModel");
 const mongoose = require("mongoose");
 
 const getPlayers = async (req, res) => {
-  const cards = await Card.find({});
+  const players = await Player.find({});
 
-  res.status(200).json(cards);
+  res.status(200).json(players);
 };
 
 const getPlayer = async (req, res) => {
@@ -59,48 +59,48 @@ const createPlayer = async (req, res) => {
 };
 
 // delete a workout
-const deleteCard = async (req, res) => {
+const deletePlayer = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "No such card" });
+    return res.status(400).json({ error: "No such player" });
   }
 
-  const card = await Card.findOneAndDelete({ _id: id });
+  const player = await Player.findOneAndDelete({ _id: id });
 
-  if (!card) {
-    return res.status(400).json({ error: "No such card" });
+  if (!player) {
+    return res.status(400).json({ error: "No such player" });
   }
 
-  res.status(200).json(card);
+  res.status(200).json(player);
 };
 
 // update a workout
-const updateCard = async (req, res) => {
+const updatePlayer = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "No such card" });
+    return res.status(400).json({ error: "No such player" });
   }
 
-  const card = await Card.findOneAndUpdate(
+  const player = await Player.findOneAndUpdate(
     { _id: id },
     {
       ...req.body,
     }
   );
 
-  if (!card) {
-    return res.status(400).json({ error: "No such card" });
+  if (!player) {
+    return res.status(400).json({ error: "No such player" });
   }
 
-  res.status(200).json(card);
+  res.status(200).json(player);
 };
 
 module.exports = {
-  getCards,
-  getCard,
-  createCard,
-  deleteCard,
-  updateCard,
+  getPlayers,
+  getPlayer,
+  createPlayer,
+  deletePlayer,
+  updatePlayer,
 };

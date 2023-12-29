@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const TeamSchema = require('./TeamModel');
+const RoundSchema = require('./RoundModel').schema;
+const TeamSchema = require('./TeamModel').schema;
 
 const GameSchema = new mongoose.Schema({
     
@@ -10,15 +11,29 @@ const GameSchema = new mongoose.Schema({
         required: true,
     },
 
-    teams: {
-        type: [TeamSchema],
+    team1: {
+        type: TeamSchema,
+        ref: 'Lobby',
+        required: true,
+    },
+
+    team2: {
+        type: TeamSchema,
+        ref: 'Lobby',
         required: true,
     },
 
     gameWinner: {
         type: TeamSchema,
-        required: false,
+        default: null,
+        required: true,
     },
+
+    rounds: {
+        type: [RoundSchema],
+        required: true,
+        default: [],
+    }
 
 });
 
