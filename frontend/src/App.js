@@ -13,7 +13,7 @@ import socket from './socket';
 function App() {
   useEffect(() => {
     socket.on('teamJoined', () =>{
-      alert("a player has joined a team");
+      alert("a player has joined a team haha");
     });
   }, [socket]);
   return (
