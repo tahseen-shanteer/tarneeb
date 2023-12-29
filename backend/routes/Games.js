@@ -10,10 +10,9 @@ const {
 const router = express.Router();
 
 // GET all Cards
-router.get("/", getGame);
+router.get("/:id", getGame);
 
-// GET a single Card
-router.get("/:id", createGame);
+router.post("/", createGame);
 
 // DELETE a Card
 router.delete("/:id", deleteGame);

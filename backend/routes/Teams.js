@@ -10,10 +10,10 @@ const {
 const router = express.Router();
 
 // GET all Cards
-router.get("/", getTeam);
+router.get("/:id", getTeam);
 
 // GET a single Card
-router.get("/:id", createTeam);
+router.post("/", createTeam);
 
 // DELETE a Card
 router.delete("/:id", deleteTeam);
