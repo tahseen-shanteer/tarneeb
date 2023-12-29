@@ -1,15 +1,29 @@
 import "./MultiplayerPage.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Form, Button, Image } from "react-bootstrap";
 import DefaultProfile from "../../images/defaultProfile.svg";
 import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
+import { useNavigate } from 'react-router-dom';
+import socket from '../../socket';
 
 function MultiplayerPage() {
   const [avatar, setAvatar] = useState(DefaultProfile);
+  const [name, setName] = useState('');
+  const [code, setCode] = useState('');
+  const navigate = useNavigate();
 
   const handleAvatarChange = (avatar) => {
     setAvatar(avatar);
   };
+
+  const joinGame = (gameCode, playerName) => {
+    console.log('Before socket.emit: ', { playerName, gameCode });
+    socket.emit('joinRoom', playerName, gameCode);
+    console.log('After socket.emit');
+    const roomName = gameCode;
+    navigate(`/WaitingRoom?${roomName}`);
+  };
+
   return (
     <div className="multiplayerPage-container">
       <div className="enterCode">
@@ -35,6 +49,9 @@ function MultiplayerPage() {
                   className="name-input"
                   type="text"
                   placeholder="Enter display Name"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
 
@@ -44,6 +61,9 @@ function MultiplayerPage() {
                   className="code-input"
                   type="text"
                   placeholder="Enter game code"
+                  name="code"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
                 />
               </Form.Group>
 
@@ -51,7 +71,8 @@ function MultiplayerPage() {
                 <Button
                   className="code-submit-button"
                   variant="danger"
-                  type="submit"
+                  type="button"
+                  onClick={() => joinGame(code, name)}
                 >
                   Join Game
                 </Button>
