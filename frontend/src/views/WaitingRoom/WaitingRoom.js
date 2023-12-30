@@ -23,27 +23,6 @@ function WaitingRoom() {
     <div className="waitingroom-page-container">
       <div className="waitingroom-container">
         <div className="waitingroom">
-
-        <Form.Group className="formCode">
-                <Form.Label className="code-label">Code:</Form.Label>
-                <Form.Control
-                  className="code-input"
-                  type="text"
-                  placeholder="Enter game code"
-                  name="code"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                />
-              </Form.Group>
-              <Button
-                  className="code-submit-button"
-                  variant="danger"
-                  type="button"
-                  onClick={() => func(code)}
-                >
-                  Join Game
-                </Button>
-
           {role === "host" ? (
             <Card className="waitingroom-card">
               <Card.Body className="waitingroom-card-body">

@@ -19,7 +19,6 @@ function MultiplayerPage() {
   const joinGame = (gameCode, playerName) => {
     console.log('Before socket.emit: ', { playerName, gameCode });
     socket.emit('joinRoom', playerName, gameCode);
-    console.log('After socket.emit');
     const roomName = gameCode;
     navigate(`/WaitingRoom?${roomName}`);
   };
