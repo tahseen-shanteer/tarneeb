@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const CardSchema = reqiure('./CardModel');
+const CardSchema = require('./CardModel').schema;
 
 const RoundSchema = new mongoose.Schema({
 
@@ -10,11 +10,25 @@ const RoundSchema = new mongoose.Schema({
     },
 
     cardsPlayed: {
-        type: [CardSchema],
+        type: [{
+            card: CardSchema,
+            player: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Player',
+                required: true,
+            },
+        }],
+        default: [],
+        validate: {
+            validator: function (cardsPlayed) {
+                return cardsPlayed.length <= 4;
+            },
+            message: 'A round cannot have more than 4 cards played',
+        },
         required: true,
     },
 
 
 });
 
-module.exports = RoundSchema;
+module.exports = mongoose.model('Round', RoundSchema);
