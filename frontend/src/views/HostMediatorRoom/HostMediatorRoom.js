@@ -9,14 +9,53 @@ import socket from '../../socket';
 
 function HostMediatorRoom() {
   const [avatar, setAvatar] = useState(DefaultProfile);
+  const [name, setName] = useState('');
   const navigate = useNavigate();
 
   const handleAvatarChange = (avatar) => {
     setAvatar(avatar);
   };
 
-  const createRoom = () =>{
-    const roomName = `ABC123`;
+  const handleNameChange = (name) => {
+    setName(name);
+  };
+
+  const generateRandomCode = () => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    let code = "";
+    for (let i = 0; i < 6; i++) {
+      code += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return code;
+  };
+
+  const createRoom = async () =>{
+    const code = generateRandomCode();
+
+    const response = await fetch('http://localhost:8000/api/lobbies/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        players: [
+          {
+            playerName: 'Player1',
+            roundsWon: 0, 
+            isTurn: false,
+            playerDeck: [],
+          },
+        ],
+        lobbyCode: code,
+        lobbyDeck: [],
+        team1: [],
+        team2: [],
+      })
+    });
+    const data = await response.json();
+    console.log(data);
+
+    const roomName = data.lobbyCode;
     socket.emit('createRoom', roomName );
     navigate(`/WaitingRoom?${roomName}`);
   };
@@ -55,6 +94,8 @@ function HostMediatorRoom() {
                   type="text"
                   placeholder="Enter Display Name"
                   className="host-med-room-form-name-field"
+                  name={name}
+                  onChange={handleNameChange}
                 />
               </Form.Group>
             </Form>

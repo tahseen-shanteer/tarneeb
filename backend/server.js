@@ -2,10 +2,16 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require('cors');
+// const corsOptions ={
+//   origin:'http://localhost:3000', 
+//   credentials:true,            
+//   optionSuccessStatus:200
+// }
 const mongoose = require("mongoose");
 const cardRoutes = require("./routes/Cards");
 const playerRoutes = require("./routes/Players");
 const roundRoutes = require("./routes/Rounds");
+const lobbyRoutes = require("./routes/Lobby");
 
 // express app
 const app = express();
@@ -23,6 +29,7 @@ app.use((req, res, next) => {
 app.use("/api/cards", cardRoutes);
 app.use("/api/players", playerRoutes);
 app.use("/api/rounds", roundRoutes);
+app.use("/api/lobbies", lobbyRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)

@@ -17,16 +17,15 @@ const LobbySchema = new mongoose.Schema({
     lobbyCode: {
         type: String,
         required: true,
-        unique: true,
     },
 
     team1: {
-        type: TeamSchema,
+        type: [PlayerSchema],
         required: true,
     },
 
     team2: {
-        type: TeamSchema,
+        type: [PlayerSchema],
         required: true,
     },
 

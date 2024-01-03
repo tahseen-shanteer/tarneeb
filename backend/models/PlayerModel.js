@@ -6,12 +6,11 @@ const PlayerSchema = new mongoose.Schema({
     playerName : {
         type: String,
         required: true,
-        unique: true,
     },
 
     playerAvatar : {
         type: Buffer,
-        required: true,
+        required: false,
     },
 
     roundsWon : {
