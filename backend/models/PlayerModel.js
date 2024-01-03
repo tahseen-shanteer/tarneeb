@@ -9,7 +9,8 @@ const PlayerSchema = new mongoose.Schema({
     },
 
     playerAvatar : {
-        type: Buffer,
+        type: String,
+        default: "",
         required: false,
     },
 

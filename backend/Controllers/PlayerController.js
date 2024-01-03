@@ -31,16 +31,16 @@ const createPlayer = async (req, res) => {
   if (!playerName) {
     emptyFields.push("playerName");
   }
-  if (!playerAvatar) {
-    emptyFields.push("playerAvater");
+  if (playerAvatar == undefined) {
+    emptyFields.push("playerAvatar");
   }
   if (!playerDeck) {
     emptyFields.push("playerDeck");
   }
-  if (!roundsWon) {
+  if (roundsWon == undefined) {
     emptyFields.push("roundsWon");
   }
-  if (!isTurn) {
+  if (isTurn == undefined) {
     emptyFields.push("isTurn");
   }
   if (emptyFields.length > 0) {

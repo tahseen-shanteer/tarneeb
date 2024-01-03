@@ -10,14 +10,11 @@ import socket from '../../socket';
 function HostMediatorRoom() {
   const [avatar, setAvatar] = useState(DefaultProfile);
   const [name, setName] = useState('');
+  const [code, setCode] = useState('');
   const navigate = useNavigate();
 
   const handleAvatarChange = (avatar) => {
     setAvatar(avatar);
-  };
-
-  const handleNameChange = (name) => {
-    setName(name);
   };
 
   const generateRandomCode = () => {
@@ -26,11 +23,31 @@ function HostMediatorRoom() {
     for (let i = 0; i < 6; i++) {
       code += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-    return code;
+    setCode(code);
+  };
+
+  const createPlayer = async () =>{
+    const response = await fetch('http://localhost:8000/api/players/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        playerName: name,
+        playerAvatar: "",
+        roundsWon: 0,
+        isTurn: false,
+        playerDeck: [],
+      })
+    });
+    const hostPlayer = await response.json();
+    console.log(hostPlayer);
+
+    return hostPlayer;
   };
 
   const createRoom = async () =>{
-    const code = generateRandomCode();
+    generateRandomCode();
 
     const response = await fetch('http://localhost:8000/api/lobbies/', {
       method: 'POST',
@@ -38,14 +55,7 @@ function HostMediatorRoom() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        players: [
-          {
-            playerName: 'Player1',
-            roundsWon: 0, 
-            isTurn: false,
-            playerDeck: [],
-          },
-        ],
+        players: [await createPlayer()],
         lobbyCode: code,
         lobbyDeck: [],
         team1: [],
@@ -95,7 +105,7 @@ function HostMediatorRoom() {
                   placeholder="Enter Display Name"
                   className="host-med-room-form-name-field"
                   name={name}
-                  onChange={handleNameChange}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
             </Form>
