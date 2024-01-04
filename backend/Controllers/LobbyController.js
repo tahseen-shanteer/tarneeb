@@ -4,11 +4,11 @@ const mongoose = require("mongoose");
 const getLobby = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "No such lobby" });
-  }
+  // if (!mongoose.Types.ObjectId.isValid(gameCode)) {
+  //   return res.status(404).json({ error: "No such lobby" });
+  // }
 
-  const lobby = await Lobby.findById(id);
+  const lobby = await Lobby.find({lobbyCode: id});
 
   if (!lobby) {
     return res.status(404).json({ error: "No such lobby" });
@@ -73,12 +73,12 @@ const deleteLobby = async (req, res) => {
 const updateLobby = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "No such lobby" });
-  }
+  // if (!mongoose.Types.ObjectId.isValid(gameCode)) {
+  //   return res.status(400).json({ error: "No such lobby" });
+  // }
 
   const lobby = await Lobby.findOneAndUpdate(
-    { _id: id },
+    { lobbyCode: id },
     {
       ...req.body,
     }

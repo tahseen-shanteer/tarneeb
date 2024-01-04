@@ -7,17 +7,13 @@ import { Link, useNavigate } from "react-router-dom";
 import socket from '../../socket';
 
 
-function HostMediatorRoom() {
+function HostMediatorRoom(props) {
   const [avatar, setAvatar] = useState(DefaultProfile);
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
   const handleAvatarChange = (avatar) => {
     setAvatar(avatar);
-  };
-
-  const handleNameChange = (name) => {
-    setName(name);
   };
 
   const generateRandomCode = () => {
@@ -29,8 +25,37 @@ function HostMediatorRoom() {
     return code;
   };
 
+  const createPlayer = async () => {
+    console.log(name);
+    const response = await fetch('http://localhost:8000/api/players/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        playerName: name,
+        playerAvatar: 'avatar',
+        roundsWon: 0,
+        isTurn: true,
+        playerDeck: [],
+      }
+    )});
+
+    const data = await response.json();
+    console.log(data)
+
+    return data;
+  }
+
   const createRoom = async () =>{
-    const code = generateRandomCode();
+
+    const gameCode = generateRandomCode();
+
+    if(!props.gameCode){
+      props.setGameCode(gameCode);
+    }
+
+    props.setThisPlayer(await createPlayer());
 
     const response = await fetch('http://localhost:8000/api/lobbies/', {
       method: 'POST',
@@ -38,21 +63,15 @@ function HostMediatorRoom() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        players: [
-          {
-            playerName: 'Player1',
-            roundsWon: 0, 
-            isTurn: false,
-            playerDeck: [],
-          },
-        ],
-        lobbyCode: code,
+        players: [props.thisPlayer],
+        lobbyCode: gameCode,
         lobbyDeck: [],
         team1: [],
         team2: [],
       })
     });
     const data = await response.json();
+    props.setLobbyData(data);
     console.log(data);
 
     const roomName = data.lobbyCode;
@@ -95,7 +114,7 @@ function HostMediatorRoom() {
                   placeholder="Enter Display Name"
                   className="host-med-room-form-name-field"
                   name={name}
-                  onChange={handleNameChange}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
             </Form>

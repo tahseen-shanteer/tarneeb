@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Homepage from './views/Homepage/Homepage';
 import MultiplayerPage from './views/MultiplayerPage/MultiplayerPage';
@@ -11,6 +11,12 @@ import socket from './socket';
 
 
 function App() {
+
+  const [gameCode, setGameCode] = useState(null);
+  const [thisPlayer, setThisPlayer] = useState(null);
+  const [lobbyData, setLobbyData] = useState(null);
+
+
   useEffect(() => {
     socket.on('teamJoined', () =>{
       alert("a player has joined a team haha");
@@ -22,10 +28,10 @@ function App() {
         {!window.location.pathname.includes("game") ? <TarneebHeader /> : null}
         <Routes>
           <Route path='/' element={ <Homepage/> } />
-          <Route path='/MultiplayerPage' element={ <MultiplayerPage/> }/>
-          <Route path='/WaitingRoom' element={ <WaitingRoom/> }/>
+          <Route path='/MultiplayerPage' element={ <MultiplayerPage gameCode={gameCode} setGameCode={setGameCode}/> }/>
+          <Route path='/WaitingRoom' element={ <WaitingRoom lobbyData={lobbyData} setLobbyData={setLobbyData} gameCode={gameCode} thisPlayer={thisPlayer}/> }/>
           <Route path='/Game' element={<Game/>}/>
-          <Route path='/CreateGame' element={ <HostMediatorRoom/> }/>
+          <Route path='/CreateGame' element={ <HostMediatorRoom setLobbyData={setLobbyData} gameCode={gameCode} setGameCode={setGameCode} thisPlayer={thisPlayer} setThisPlayer={setThisPlayer}/> }/>
         </Routes>
       </BrowserRouter>
     </div>

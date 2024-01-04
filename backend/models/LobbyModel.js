@@ -17,6 +17,7 @@ const LobbySchema = new mongoose.Schema({
     lobbyCode: {
         type: String,
         required: true,
+        unique: true,
     },
 
     team1: {
