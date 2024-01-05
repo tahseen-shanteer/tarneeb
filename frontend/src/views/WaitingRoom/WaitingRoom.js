@@ -1,15 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./WaitingRoom.css";
-import { Button, Card, Table, Form } from "react-bootstrap";
+import { Button, Card, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectApp } from "../../state/slices/lobbySlice";
 import socket from "../../socket";
 
-function WaitingRoom(props) {
+function WaitingRoom() {
+  const dispatch = useDispatch();
+  const { lobbyCode, thisPlayer } = useSelector(selectApp);
+  const [Team1, setTeam1] = useState(null);
+  const [Player, setPlayer] = useState(null);
+  const [Player11, setPlayer11] = useState("Player");
+  const [Player12, setPlayer12] = useState("Player");
+  const [Player21, setPlayer21] = useState("Player");
+  const [Player22, setPlayer22] = useState("Player");
   const role = "host";
-  const gameCode = props.gameCode;
-  console.log("GameCode", gameCode);
+  const gameCode = lobbyCode;
+  const playerName = thisPlayer;
 
   useEffect(() => {
+    
+    // get team 1 array
     if (gameCode) {
       fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
         method: "GET",
@@ -18,8 +30,8 @@ function WaitingRoom(props) {
         .then((response) => response.json())
         .then((json) => {
           console.log('This is response from lobby get', json);
-          props.setLobbyData(json);
-          console.log('This is lobby data', props.lobbyData[0])
+          console.log('This is lobby data', json);
+          setTeam1(json[0].team1);
         });
     }
   }, [gameCode]);
@@ -28,46 +40,70 @@ function WaitingRoom(props) {
     socket.emit("teamJoin", gameCode);
   };
 
-  const func = (code) => {
-    socket.emit("teamJoin", code);
-  };
+  const handleTeamJoin = async () => {
+    let json;
 
-  const handleJoinTeam1 = async () => {
-    const updatedTeam1 = props.lobbyData[0].team1;
-    console.log('updateed team 1', updatedTeam1);
-    const team2 = props.lobbyData[0].team2;
+    // get player from lobby in db based off their name
+    const response = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    });
 
-    if (updatedTeam1 &&updatedTeam1.includes(props.thisPlayer)) {
-      console.error("Player already in team 1");
-      return;
-    } else if (team2 && team2.includes(props.thisPlayer)) {
-      const index = team2.indexOf(props.thisPlayer);
-      team2.splice(index, 1);
+    json = await response.json();
+    console.log(json);
+
+    const fetchedPlayer = json[0].players[0];
+    setPlayer(fetchedPlayer);
+    console.log(Player);
+
+    // if Team1 is null or empty
+    if (!Team1 || Team1.length === 0) {
+        // update Team1 array in db
+        console.log(fetchedPlayer);
+        setPlayer11(fetchedPlayer.playerName);
+        console.log(Player11);
+        const updatedLobby = {
+            ...json[0],
+            team1: [fetchedPlayer],
+        };
+
+        const updateResponse = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedLobby),
+        });
+
+        const updateJsonData = await updateResponse.json();
+        console.log('This is response from lobby update', updateJsonData);
+        console.log('a player joined Team1');
+    } else if (Team1.length === 1) {
+        // update Team1 array in db
+        console.log(fetchedPlayer);
+        setPlayer12(fetchedPlayer.playerName);
+        console.log(Player11);
+        const updatedLobby = {
+            ...json[0],
+            team1: [fetchedPlayer],
+        };
+
+        const updateResponse = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedLobby),
+        });
+
+        const updateJsonData = await updateResponse.json();
+        console.log('This is response from lobby update', updateJsonData);
+        console.log('a player joined Team1');
     }
+};
 
-    updatedTeam1.push(props.thisPlayer);
-
-    await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...props.lobbyData[0],
-        team1: updatedTeam1,
-        team2: team2,
-      }),
-    })
-      .then((response) => response.json())
-      .then((json) => props.setLobbyData(json))
-      .catch((error) => console.log(error));
-  };
+  
 
   return (
     <div className="waitingroom-page-container">
       <div className="waitingroom-container">
         <div className="waitingroom">
-          {role === "host" && props.lobbyData[0] ? (
             <Card className="waitingroom-card">
               <Card.Body className="waitingroom-card-body">
                 <div className="waitingroom-game-code">
@@ -75,7 +111,7 @@ function WaitingRoom(props) {
                     Game Code:
                   </Card.Text>
                   <Card.Text className="waitingroom-card-code">
-                    {props.lobbyData[0].lobbyCode}
+                    {gameCode}
                   </Card.Text>
                 </div>
 
@@ -83,7 +119,7 @@ function WaitingRoom(props) {
                   Share this code with your friends to join the game!
                 </Card.Text>
                 <div className="waitingroom-table-container">
-                  <Table
+                <Table
                     striped
                     bordered
                     hover
@@ -92,35 +128,20 @@ function WaitingRoom(props) {
                     <thead>
                       <tr>
                         <td>
-                          <Button variant="secondary" onClick={handleJoinTeam1}>
+                          <Button variant="secondary" onClick={handleTeamJoin}>
                             Join Team 1
                           </Button>
                         </td>
                       </tr>
                     </thead>
-                    {props.lobbyData[0].team1 && props.lobbyData[0].team1.length > 0 ? (
                       <tbody>
                         <tr>
-                          <td>{props.lobbyData[0].team1[0].playerName}</td>
+                          <td>{Player11}</td>
                         </tr>
                         <tr>
-                          <td>
-                            {props.lobbyData[0].team1.length > 1
-                              ? props.lobbyData[0].team1[1].playerName
-                              : "Player"}
-                          </td>
+                          <td>{Player12}</td>
                         </tr>
                       </tbody>
-                    ) : (
-                      <tbody>
-                        <tr>
-                          <td>Player</td>
-                        </tr>
-                        <tr>
-                          <td>Player</td>
-                        </tr>
-                      </tbody>
-                    )}
                   </Table>
                   <Table
                     striped
@@ -135,29 +156,14 @@ function WaitingRoom(props) {
                         </td>
                       </tr>
                     </thead>
-                    {props.lobbyData[0].team2 && props.lobbyData[0].team2.length > 0 ? (
                       <tbody>
                         <tr>
-                          <td>{props.lobbyData[0].team2[0].playerName}</td>
+                          <td>{Player21}</td>
                         </tr>
                         <tr>
-                          <td>
-                            {props.lobbyData[0].team2.length > 1
-                              ? props.lobbyData[0].team2[1].playerName
-                              : "Player"}
-                          </td>
+                          <td>{Player22}</td>
                         </tr>
                       </tbody>
-                    ) : (
-                      <tbody>
-                        <tr>
-                          <td>Player</td>
-                        </tr>
-                        <tr>
-                          <td>Player</td>
-                        </tr>
-                      </tbody>
-                    )}
                   </Table>
                 </div>
 
@@ -181,7 +187,6 @@ function WaitingRoom(props) {
                 </div>
               </Card.Body>
             </Card>
-          ) : null}
         </div>
       </div>
     </div>

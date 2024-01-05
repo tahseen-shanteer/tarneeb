@@ -4,12 +4,16 @@ import { Card, Form, Button, Image } from "react-bootstrap";
 import DefaultProfile from "../../images/defaultProfile.svg";
 import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { selectApp, setLobbyCode, setPlayerName } from "../../state/slices/lobbySlice";
 import socket from '../../socket';
 
 function MultiplayerPage() {
   const [avatar, setAvatar] = useState(DefaultProfile);
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
+  const { lobbyCode, thisPlayer } = useSelector(selectApp);
   const navigate = useNavigate();
 
   const handleAvatarChange = (avatar) => {
@@ -17,8 +21,9 @@ function MultiplayerPage() {
   };
 
   const joinGame = (gameCode, playerName) => {
-    console.log('Before socket.emit: ', { playerName, gameCode });
     socket.emit('joinRoom', playerName, gameCode);
+    dispatch(setLobbyCode(gameCode));
+    dispatch(setPlayerName(playerName));
     const roomName = gameCode;
     navigate(`/WaitingRoom?${roomName}`);
   };

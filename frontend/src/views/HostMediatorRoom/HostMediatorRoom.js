@@ -4,10 +4,17 @@ import { Card, Button, Form, Image } from "react-bootstrap";
 import DefaultProfile from "../../images/defaultProfile.svg";
 import AvatarSelectionCard from "../../Components/AvatarSelectionCard/AvatarSelectionCard";
 import { Link, useNavigate } from "react-router-dom";
+
+// import them
+import { useSelector, useDispatch } from "react-redux";
+import { setLobbyCode, setPlayerName, selectApp } from "../../state/slices/lobbySlice";
 import socket from '../../socket';
 
 
-function HostMediatorRoom(props) {
+function HostMediatorRoom() {
+  const dispatch = useDispatch(); // used to set stuff
+  const { lobbyCode, thisPlayer, lobbyData } = useSelector(selectApp); // ngl dk what this is for but I saw it everywhere so just keep it incase
+
   const [avatar, setAvatar] = useState(DefaultProfile);
   const [name, setName] = useState('');
   const navigate = useNavigate();
@@ -26,6 +33,8 @@ function HostMediatorRoom(props) {
   };
 
   const createPlayer = async () => {
+
+    dispatch(setPlayerName(name));
     console.log(name);
     const response = await fetch('http://localhost:8000/api/players/', {
       method: 'POST',
@@ -51,11 +60,7 @@ function HostMediatorRoom(props) {
 
     const gameCode = generateRandomCode();
 
-    if(!props.gameCode){
-      props.setGameCode(gameCode);
-    }
-
-    props.setThisPlayer(await createPlayer());
+    dispatch(setLobbyCode(gameCode));
 
     const response = await fetch('http://localhost:8000/api/lobbies/', {
       method: 'POST',
@@ -63,7 +68,7 @@ function HostMediatorRoom(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        players: [props.thisPlayer],
+        players: [await createPlayer()],
         lobbyCode: gameCode,
         lobbyDeck: [],
         team1: [],
@@ -71,7 +76,6 @@ function HostMediatorRoom(props) {
       })
     });
     const data = await response.json();
-    props.setLobbyData(data);
     console.log(data);
 
     const roomName = data.lobbyCode;
