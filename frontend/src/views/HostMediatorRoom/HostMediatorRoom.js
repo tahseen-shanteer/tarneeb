@@ -19,6 +19,9 @@ function HostMediatorRoom() {
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
+  const shapes = ["diamond", "spade", "heart", "club"];
+  const values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+
   const handleAvatarChange = (avatar) => {
     setAvatar(avatar);
   };
@@ -30,6 +33,27 @@ function HostMediatorRoom() {
       code += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return code;
+  };
+
+  const generateRandomCard = () => {
+    const randomValue = values[Math.floor(Math.random() * values.length)];
+    const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+    return { value: randomValue, shape: randomShape };
+  };
+
+  const generateRandomDeck = () => {
+    const randomDeck = [];
+    const cardsInDeck = new Set();
+    
+    while(randomDeck.length < 52){
+      const card = generateRandomCard();
+      if(!cardsInDeck.has(card)){
+        randomDeck.push(card);
+        cardsInDeck.add(card);
+      }
+    }
+  
+    return randomDeck;
   };
 
   const createPlayer = async () => {
@@ -58,6 +82,7 @@ function HostMediatorRoom() {
   const createRoom = async () =>{
 
     const gameCode = generateRandomCode();
+    const lobbyCode = generateRandomDeck();
 
     dispatch(setLobbyCode(gameCode));
 
@@ -69,7 +94,7 @@ function HostMediatorRoom() {
       body: JSON.stringify({
         players: [await createPlayer()],
         lobbyCode: gameCode,
-        lobbyDeck: [],
+        lobbyDeck: lobbyCode,
         team1: [],
         team2: [],
       })
