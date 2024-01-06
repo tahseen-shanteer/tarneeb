@@ -11,12 +11,6 @@ import socket from './socket';
 
 
 function App() {
-
-  useEffect(() => {
-    socket.on('teamJoined', () =>{
-      alert("a player has joined a team haha");
-    });
-  }, [socket]);
   return (
     <div className="App">
       <BrowserRouter>

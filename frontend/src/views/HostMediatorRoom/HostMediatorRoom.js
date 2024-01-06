@@ -51,7 +51,6 @@ function HostMediatorRoom() {
     )});
 
     const data = await response.json();
-    console.log(data)
 
     return data;
   }
@@ -76,7 +75,6 @@ function HostMediatorRoom() {
       })
     });
     const data = await response.json();
-    console.log(data);
 
     const roomName = data.lobbyCode;
     socket.emit('createRoom', roomName );

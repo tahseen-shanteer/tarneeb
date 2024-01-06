@@ -8,8 +8,9 @@ import socket from "../../socket";
 
 function WaitingRoom() {
   const dispatch = useDispatch();
-  const { lobbyCode, thisPlayer } = useSelector(selectApp);
-  const [Team1, setTeam1] = useState(null);
+  const { lobbyCode, playerName } = useSelector(selectApp);
+  const [Team1, setTeam1] = useState([]);
+  const [Team2, setTeam2] = useState([]);
   const [Player, setPlayer] = useState(null);
   const [Player11, setPlayer11] = useState("Player");
   const [Player12, setPlayer12] = useState("Player");
@@ -17,10 +18,9 @@ function WaitingRoom() {
   const [Player22, setPlayer22] = useState("Player");
   const role = "host";
   const gameCode = lobbyCode;
-  const playerName = thisPlayer;
+  const RplayerName = playerName;
 
-  useEffect(() => {
-    
+  socket.on('team1Joined', () => {
     // get team 1 array
     if (gameCode) {
       fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
@@ -29,18 +29,40 @@ function WaitingRoom() {
       })
         .then((response) => response.json())
         .then((json) => {
-          console.log('This is response from lobby get', json);
-          console.log('This is lobby data', json);
           setTeam1(json[0].team1);
+          if(json[0].team1.length >= 1){
+            setPlayer11(json[0].team1[0].playerName);
+          }
+          if(json[0].team1.length === 2){
+            setPlayer12(json[0].team1[1].playerName);
+          }
         });
     }
-  }, [gameCode]);
+  });
 
-  const alertFunc = () => {
-    socket.emit("teamJoin", gameCode);
-  };
 
-  const handleTeamJoin = async () => {
+  socket.on('team2Joined', () => {
+    // get team 2 array
+    if (gameCode) {
+      fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          setTeam2(json[0].team2);
+          if (json[0].team2.length >= 1) {
+            setPlayer21(json[0].team2[0].playerName);
+          }
+          if (json[0].team2.length === 2) {
+            setPlayer22(json[0].team2[1].playerName);
+          }
+        });
+    }
+  });
+
+
+  const handleTeam1Join = async () => {
     let json;
 
     // get player from lobby in db based off their name
@@ -50,21 +72,21 @@ function WaitingRoom() {
     });
 
     json = await response.json();
-    console.log(json);
-
-    const fetchedPlayer = json[0].players[0];
+    let fetchedPlayer;
+    for(let i = 0; i < json[0].players.length; i++){
+      if(json[0].players[i].playerName === RplayerName){
+        fetchedPlayer = json[0].players[i];
+      }
+    }
     setPlayer(fetchedPlayer);
-    console.log(Player);
 
-    // if Team1 is null or empty
-    if (!Team1 || Team1.length === 0) {
+    // if Team1 is empty
+    if (Team1.length === 0) {
         // update Team1 array in db
-        console.log(fetchedPlayer);
-        setPlayer11(fetchedPlayer.playerName);
-        console.log(Player11);
+        console.log(" team 1 array if there's 0 players in it : ", Team1);
         const updatedLobby = {
             ...json[0],
-            team1: [fetchedPlayer],
+            team1: [...Team1, fetchedPlayer],
         };
 
         const updateResponse = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
@@ -74,16 +96,12 @@ function WaitingRoom() {
         });
 
         const updateJsonData = await updateResponse.json();
-        console.log('This is response from lobby update', updateJsonData);
-        console.log('a player joined Team1');
     } else if (Team1.length === 1) {
         // update Team1 array in db
-        console.log(fetchedPlayer);
-        setPlayer12(fetchedPlayer.playerName);
-        console.log(Player11);
+        console.log(" team 1 array if there's already a player in it : ", Team1);
         const updatedLobby = {
             ...json[0],
-            team1: [fetchedPlayer],
+            team1: [...Team1, fetchedPlayer],
         };
 
         const updateResponse = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
@@ -93,9 +111,65 @@ function WaitingRoom() {
         });
 
         const updateJsonData = await updateResponse.json();
-        console.log('This is response from lobby update', updateJsonData);
-        console.log('a player joined Team1');
     }
+
+    // send signal to server that a player joined team 1
+    socket.emit("team1Join", gameCode);
+};
+
+const handleTeam2Join = async () => {
+  let json;
+
+  // get player from lobby in db based off their name
+  const response = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  json = await response.json();
+  let fetchedPlayer;
+  for (let i = 0; i < json[0].players.length; i++) {
+    if (json[0].players[i].playerName === RplayerName) {
+      fetchedPlayer = json[0].players[i];
+    }
+  }
+  setPlayer(fetchedPlayer);
+
+  // if Team2 is empty
+  if (Team2.length === 0) {
+    // update Team2 array in db
+    console.log(" team 2 array if there's 0 players in it : ", Team2);
+    const updatedLobby = {
+      ...json[0],
+      team2: [...Team2, fetchedPlayer],
+    };
+
+    const updateResponse = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedLobby),
+    });
+
+    const updateJsonData = await updateResponse.json();
+  } else if (Team2.length === 1) {
+    // update Team2 array in db
+    console.log(" team 2 array if there's already a player in it : ", Team2);
+    const updatedLobby = {
+      ...json[0],
+      team2: [...Team2, fetchedPlayer],
+    };
+
+    const updateResponse = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedLobby),
+    });
+
+    const updateJsonData = await updateResponse.json();
+  }
+
+  // send signal to server that a player joined team 2
+  socket.emit("team2Join", gameCode);
 };
 
   
@@ -128,7 +202,7 @@ function WaitingRoom() {
                     <thead>
                       <tr>
                         <td>
-                          <Button variant="secondary" onClick={handleTeamJoin}>
+                          <Button variant="secondary" onClick={handleTeam1Join}>
                             Join Team 1
                           </Button>
                         </td>
@@ -152,7 +226,7 @@ function WaitingRoom() {
                     <thead>
                       <tr>
                         <td>
-                          <Button variant="secondary">Join Team 2</Button>
+                          <Button variant="secondary" onClick={handleTeam2Join}>Join Team 2</Button>
                         </td>
                       </tr>
                     </thead>

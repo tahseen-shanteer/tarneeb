@@ -15,7 +15,7 @@ const io = socketIO(server);
 
 app.use(cors(corsOptions));
 
-const PORT = 3001;
+const PORT = 4000;
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
@@ -39,9 +39,16 @@ io.on('connection', (socket) => {
         socket.join(roomName);
     });
 
-    socket.on('teamJoin', (room) => {
+    // send signal to room that a player joined team 1
+    socket.on('team1Join', (room) => {
         console.log(`Team joined in room ${room}`);
-        io.to(room).emit('teamJoined');
+        io.to(room).emit('team1Joined');
+    });
+
+     // send signal to room that a player joined team 1
+     socket.on('team2Join', (room) => {
+        console.log(`Team joined in room ${room}`);
+        io.to(room).emit('team2Joined');
     });
 });
 

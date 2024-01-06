@@ -20,13 +20,62 @@ function MultiplayerPage() {
     setAvatar(avatar);
   };
 
-  const joinGame = (gameCode, playerName) => {
-    socket.emit('joinRoom', playerName, gameCode);
-    dispatch(setLobbyCode(gameCode));
-    dispatch(setPlayerName(playerName));
-    const roomName = gameCode;
-    navigate(`/WaitingRoom?${roomName}`);
+  const joinGame = async (gameCode, playerName) => {
+
+    console.log(gameCode);
+
+    // get lobby you will enter
+    const getPlayersResponse = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+
+    const playersJson = await getPlayersResponse.json();
+    console.log(" awaited entire lobby in playersJson : " , playersJson);
+    console.log(" awaited old list of players in playersJson : " , playersJson[0].players);
+
+    try {
+      // create new player in the db
+      const createPlayerResponse = await fetch('http://localhost:8000/api/players/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          playerName: playerName,
+          playerAvatar: 'avatar',
+          roundsWon: 0,
+          isTurn: true,
+          playerDeck: [],
+        }),
+      });
+  
+      const newPlayerData = await createPlayerResponse.json();
+
+      // update db w new player
+      const updatedLobbyResponse = await fetch(`http://localhost:8000/api/lobbies/${gameCode}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          players: [...playersJson[0].players, newPlayerData],
+        }),
+      });
+  
+      const updatedLobbyData = await updatedLobbyResponse.json();
+  
+      dispatch(setLobbyCode(gameCode));
+      dispatch(setPlayerName(playerName));
+  
+      const roomName = gameCode;
+      socket.emit('joinRoom', playerName, gameCode);
+      navigate(`/WaitingRoom?${roomName}`);
+    } catch (error) {
+      console.error('Error while joining the game:', error);
+    }
   };
+  
 
   return (
     <div className="multiplayerPage-container">
