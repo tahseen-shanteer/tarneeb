@@ -8,7 +8,7 @@ function Game() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [playedCards, setPlayedCards] = useState([]);
   const {lobbyCode, playerName} = useSelector(selectApp);
-  const [playerDeck, setPlayerDeck] = useState([]);
+  const [pDeck, setPDeck] = useState([]);
 
   console.log("lobby code", lobbyCode);
 
@@ -75,6 +75,7 @@ function Game() {
         playerDeck.push(card);
       }
       console.log(playerDeck)
+      setPDeck(playerDeck);
     }
 
     fetchData();
@@ -86,7 +87,7 @@ function Game() {
       <div className="game-table">
       </div>
       <div className="player-deck">
-      {playerDeck.map((card, index) => (
+      {pDeck.map((card, index) => (
           <PlayingCard
             key={index}
             number={card.number}
