@@ -5,7 +5,7 @@ import Heart from "../../images/heart.svg";
 import Club from "../../images/club.svg";
 import Spade from "../../images/spade.svg";
 
-const PlayingCard = ({ number, shape, onClick, isUp, isPlayed }) => {
+const PlayingCard = ({ number, shape, isUp}) => {
   const shapes = {
     diamond: Diamond,
     heart: Heart,
@@ -21,7 +21,7 @@ const PlayingCard = ({ number, shape, onClick, isUp, isPlayed }) => {
   };
 
   return (
-    <Card className={`playing-card ${isUp ? "up" : ""}`} onClick={onClick}>
+    <Card className={`playing-card ${isUp ? "up" : ""}`}>
       <Card.Body className="card-body">
         <div className="playing-card-main-content">
           <Card.Text

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./WaitingRoom.css";
 import { Button, Card, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectApp } from "../../state/slices/lobbySlice";
 import socket from "../../socket";
@@ -19,6 +19,7 @@ function WaitingRoom() {
   const role = "host";
   const gameCode = lobbyCode;
   const RplayerName = playerName;
+  const navigate = useNavigate();
 
   socket.on('team1Joined', () => {
     // get team 1 array
@@ -172,6 +173,15 @@ const handleTeam2Join = async () => {
   socket.emit("team2Join", gameCode);
 };
 
+const handleStartGame = () =>{
+    socket.emit('startingGame', gameCode);
+    navigate(`/Game?${gameCode}`);
+};
+
+socket.on("gameStarted", (gameCode) =>{
+  navigate(`/Game?${gameCode}`);
+})
+
   
 
   return (
@@ -250,14 +260,13 @@ const handleTeam2Join = async () => {
                       Leave Game
                     </Button>
                   </Link>
-                  <Link to="/Game">
                     <Button
                       className="waitingroom-host-button-start"
                       variant="success"
+                      onClick={handleStartGame}
                     >
                       Start Game
                     </Button>
-                  </Link>
                 </div>
               </Card.Body>
             </Card>

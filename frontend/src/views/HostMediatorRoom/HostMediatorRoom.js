@@ -47,9 +47,15 @@ function HostMediatorRoom() {
     
     while(randomDeck.length < 52){
       const card = generateRandomCard();
-      if(!cardsInDeck.has(card)){
+      const cardString = JSON.stringify(card);
+
+      if (!cardsInDeck.has(cardString)) {
         randomDeck.push(card);
-        cardsInDeck.add(card);
+        cardsInDeck.add(cardString);
+        console.log("Added card:", card);
+        console.log(cardsInDeck);
+      } else {
+        console.log("Duplicate card detected:", card);
       }
     }
   
@@ -82,7 +88,7 @@ function HostMediatorRoom() {
   const createRoom = async () =>{
 
     const gameCode = generateRandomCode();
-    const lobbyCode = generateRandomDeck();
+    const lobbyDeck = generateRandomDeck();
 
     dispatch(setLobbyCode(gameCode));
 
@@ -94,7 +100,7 @@ function HostMediatorRoom() {
       body: JSON.stringify({
         players: [await createPlayer()],
         lobbyCode: gameCode,
-        lobbyDeck: lobbyCode,
+        lobbyDeck: lobbyDeck,
         team1: [],
         team2: [],
       })

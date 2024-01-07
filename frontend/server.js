@@ -50,6 +50,11 @@ io.on('connection', (socket) => {
         console.log(`Team joined in room ${room}`);
         io.to(room).emit('team2Joined');
     });
+
+    socket.on('startingGame', (room) => {
+        console.log("starting game");
+        io.to(room).emit("gameStarted", room);
+    });
 });
 
   

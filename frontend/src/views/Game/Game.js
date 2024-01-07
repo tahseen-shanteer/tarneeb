@@ -9,85 +9,91 @@ function Game() {
   const [playedCards, setPlayedCards] = useState([]);
   const {lobbyCode, playerName} = useSelector(selectApp);
   const [playerDeck, setPlayerDeck] = useState([]);
-  const [initialDeck, setInitialDeck] = useState([]);
 
   console.log("lobby code", lobbyCode);
 
   useEffect(() => {
-    async function getInitialDeck() {
+    let thisPlayerDeck = [];
+    async function fetchData() {
       try {
-        const response = await fetch(
+        // get initial deck of 52
+        const initialDeckResponse = await fetch(
           `http://localhost:8000/api/lobbies/${lobbyCode}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
           }
         );
-        const json = await response.json();
-        console.log(json);
-        setInitialDeck(json[0].lobbyDeck);
+        const initialDeckJson = await initialDeckResponse.json();
+        const initialDeck = initialDeckJson[0].lobbyDeck;
+  
+        // get players array
+        const playerDeckResponse = await fetch(
+          `http://localhost:8000/api/lobbies/${lobbyCode}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const playersjson = await playerDeckResponse.json();
+        const players = playersjson[0].players; 
+
+
+        const updatedPlayers = players.map((player, index) => {
+          const playerDeckSlice = initialDeck.slice(index * 13, (index + 1) * 13);
+          return { ...player, playerDeck: playerDeckSlice };
+        });
+
+        const patchResponse = await fetch(
+          `http://localhost:8000/api/lobbies/${lobbyCode}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ players: updatedPlayers }),
+          }
+        );
+
+        for(let i = 0; i < updatedPlayers.length; i++){
+          if(updatedPlayers[i].playerName === playerName){
+             thisPlayerDeck = updatedPlayers[i].playerDeck;
+          }
+        }
+        console.log("this player deck : ",thisPlayerDeck);
       } catch (error) {
         console.error(error);
       }
-    }
 
-    getInitialDeck();
-  }, [initialDeck, lobbyCode]);
-
-  useEffect(() => {
-    if (initialDeck) {
-      async function handoutPlayerDeck() {
-        const lobbyData = await fetch(
-          `http://localhost:8000/api/lobbies/${lobbyCode}`,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        const players = await lobbyData.json()[0].players;
-        console.log("players array", players);
-
-        let thisPlayerId;
-        let thisPlayerIndex;
-
-        for (let index = 0; index < players.length; index++) {
-          if (players[index].playerName === playerName) {
-            thisPlayerId = players[index]._id;
-            thisPlayerIndex = index;
-            break;
-          }
-        }
-
-        if (thisPlayerId) {
-          await fetch(`http://localhost:8000/api/players/${thisPlayerId}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              ...players[thisPlayerIndex],
-              playerDeck: initialDeck.slice(
-                13 * thisPlayerIndex,
-                13 * thisPlayerIndex + 13
-              ),
-            }),
-          })
-            .then((response) => response.json())
-            .then((json) => {
-              console.log(json);
-              setPlayerDeck(json[0].playerDeck);
-            });
-        }
+      const playerDeck = [];
+      for(let i = 0; i < 13; i++){
+        const card = {
+          number: thisPlayerDeck[i].value,
+          shape: thisPlayerDeck[i].shape,
+          isUp: false,
+        };
+        playerDeck.push(card);
       }
-
-      handoutPlayerDeck();
+      console.log(playerDeck)
     }
-  }, [initialDeck, lobbyCode, playerName]);
+
+    fetchData();
+  }, []);
+  
 
   return (
     <div className="game-container">
       <div className="game-table">
-        <div className="played-card"></div>
       </div>
       <div className="player-deck">
+      {playerDeck.map((card, index) => (
+          <PlayingCard
+            key={index}
+            number={card.number}
+            shape={card.shape}
+            isUp={false}
+          />
+        ))}
       </div>
     </div>
   );
