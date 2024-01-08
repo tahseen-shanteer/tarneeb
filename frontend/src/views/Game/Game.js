@@ -17,6 +17,8 @@ function Game() {
   const [maxBidReached, setMaxBidReached ] = useState(false);
   const [consecutivePasses, setConsecutivePasses] = useState(0);
   const [isTurn, setIsTurn] = useState(false);
+  const [bidTurnArray, setBidTurnArray] = useState([]);
+  const [bidTurnIndex, setBidTurnIndex] = useState(0);
 
   console.log("lobby code", lobbyCode);
 
@@ -100,8 +102,10 @@ function Game() {
         const json = await response.json();
         const team1 = json[0].team1;
         const team2 = json[0].team2;
+
+        setBidTurnArray([team1[0], team2[0], team1[1], team2[1]])
   
-        if (playerName === team1[0].playerName) {
+        if (playerName === bidTurnArray[bidTurnIndex].playerName) {
           setIsTurn(true);
         }
       } catch (error) {
@@ -131,6 +135,7 @@ function Game() {
 
   // update highest bid for everyone and restore passes to 0
   socket.on("newBid", (bid, name) =>{
+    setBidTurnIndex((bidTurnIndex + 1) % 4)
     setCurrentBidAmount(bid);
     setBidderName(name);
     setConsecutivePasses(0);
@@ -163,13 +168,7 @@ function Game() {
         ))}
       </div>
       <div className="bid-button-container">
-        {showBiddingModal && (
-          <button onClick={() => setShowBiddingModal(true)}>
-            Open Bidding Modal
-          </button>
-        )}
-
-        {showBiddingModal && (
+        
           <BiddingCard
             currentBidAmount={currentBidAmount}
             bidderName={bidderName}
@@ -177,8 +176,9 @@ function Game() {
             onClose={handleCloseBiddingModal}
             onPass={handlePass}
             isTurn={isTurn}
+            setIsTurn={setIsTurn}
           />
-        )}
+        
       </div>
     </div>
   );

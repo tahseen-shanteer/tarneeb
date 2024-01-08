@@ -8,6 +8,18 @@ function BiddingCard(props) {
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+  const handleSubmitBid = () => {
+    console.log('submitted bid');
+    props.setIsTurn(false);
+    props.onBid(selectedOption);
+    setShowModal(false);
+  }
+
+  const handlePassBid = () => {
+    props.setIsTurn(false);
+    props.onPass();
+    setShowModal(false);   
+  }
 
   let bidOptions = [];
   let minBid = 0;
@@ -27,7 +39,38 @@ function BiddingCard(props) {
   return (
     <>
       <div className="bidding-card-container">
-        <Button variant="primary" onClick={handleOpenModal}>
+        <Modal show={props.isTurn} onHide={() => handleCloseModal()} centered className="bidding-modal">
+          <Modal.Header>
+            <Modal.Title>Select Bid</Modal.Title>
+            <Modal.Body>
+              <div className="bidding-modal-options-container">
+              {bidOptions.map((optionValue, index) => (
+                <Button onClick={() => setSelectedOption(optionValue)} variant={selectedOption === optionValue ? "danger" : "warning"}>{optionValue}</Button>
+              ))}
+              </div>
+            </Modal.Body>
+          </Modal.Header>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => handlePassBid()}>
+              Pass
+            </Button>
+            <Button variant="primary" onClick={() => handleSubmitBid()}>
+              Bid Higher
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    </>
+  );
+}
+
+export default BiddingCard;
+
+
+/***
+ * 
+ * 
+ * <Button variant="primary" onClick={handleOpenModal}>
           Open Bid Modal
         </Button>
 
@@ -68,9 +111,4 @@ function BiddingCard(props) {
             </Button>
           </Modal.Footer>
         </Modal>
-      </div>
-    </>
-  );
-}
-
-export default BiddingCard;
+*/
