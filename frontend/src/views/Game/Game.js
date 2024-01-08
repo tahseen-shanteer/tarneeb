@@ -104,10 +104,7 @@ function Game() {
         const team2 = json[0].team2;
 
         setBidTurnArray([team1[0], team2[0], team1[1], team2[1]])
-  
-        if (playerName === bidTurnArray[bidTurnIndex].playerName) {
-          setIsTurn(true);
-        }
+
       } catch (error) {
         console.error(error);
       }
@@ -115,6 +112,19 @@ function Game() {
   
     fetchData();
   }, []);
+
+
+  //when bit turn array is defined, execute this useEffect to determine the bidding turn of a player
+  //dependent on the change of the bid turn index and the initialization of the bid turn array
+  useEffect(() => {
+    if(bidTurnArray.length > 0){
+      if (playerName === bidTurnArray[bidTurnIndex].playerName) {
+        setIsTurn(true);
+      } else {
+        setIsTurn(false);
+      }
+    }
+  }, [bidTurnIndex, bidTurnArray])
 
   useEffect(() =>{
     if(currentBidAmount === 13 || consecutivePasses === 3){
@@ -149,6 +159,7 @@ function Game() {
 
   // update consecutive passes for everyone
   socket.on("passIncrement", () =>{
+    setBidTurnIndex((bidTurnIndex + 1) % 4);
     setConsecutivePasses(consecutivePasses + 1);
   });
   
@@ -168,7 +179,6 @@ function Game() {
         ))}
       </div>
       <div className="bid-button-container">
-        
           <BiddingCard
             currentBidAmount={currentBidAmount}
             bidderName={bidderName}
@@ -178,10 +188,10 @@ function Game() {
             isTurn={isTurn}
             setIsTurn={setIsTurn}
           />
-        
       </div>
     </div>
   );
 }
+
 
 export default Game;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "./BiddingCard.css";
 
@@ -8,6 +8,7 @@ function BiddingCard(props) {
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+
   const handleSubmitBid = () => {
     console.log('submitted bid');
     props.setIsTurn(false);
@@ -22,19 +23,14 @@ function BiddingCard(props) {
   }
 
   let bidOptions = [];
-  let minBid = 0;
-  if(props.currentBidAmount < 7){
-    minBid = 7;
-  } else {
-    minBid = props.currentBidAmount;
-  }
-  for (let i = minBid; i <= 13; i++) {
-    bidOptions.push(i);
+  for(let minBid = (props.currentBidAmount ? props.currentBidAmount + 1 : 7); minBid <= 13; minBid++ ){
+    bidOptions.push(minBid);
   }
 
   const handleOptionSelect = (event) =>{
     setSelectedOption(parseInt(event.target.value, 10));
   };
+
 
   return (
     <>
@@ -43,6 +39,11 @@ function BiddingCard(props) {
           <Modal.Header>
             <Modal.Title>Select Bid</Modal.Title>
             <Modal.Body>
+              <div>
+                <h4>
+                  {props.currentBidAmount ? (props.bidderName + " bid: " + props.currentBidAmount) : "You are the first to bid"}
+                </h4>
+              </div>
               <div className="bidding-modal-options-container">
               {bidOptions.map((optionValue, index) => (
                 <Button onClick={() => setSelectedOption(optionValue)} variant={selectedOption === optionValue ? "danger" : "warning"}>{optionValue}</Button>
