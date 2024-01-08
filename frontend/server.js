@@ -55,6 +55,17 @@ io.on('connection', (socket) => {
         console.log("starting game");
         io.to(room).emit("gameStarted", room);
     });
+
+    socket.on('bidPlaced',(room, bid, name) =>{
+        console.log("bid placed");
+        io.to(room).emit("newBid", bid, name);
+    });
+
+    socket.on('passOccured', (room) =>{
+        console.log("someone passed");
+        io.to(room).emit("passIncrement");
+    });
+
 });
 
   
